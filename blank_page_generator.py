@@ -7,7 +7,7 @@ class BlankPDF(object):
     OUTPUT_FILE = 'blank_pdf.pdf'
 
     def __init__(self, output_file = OUTPUT_FILE, page_size=A4) -> None:
-        self.output_file = output_file
+        self._output_file = output_file
         self.page_size = page_size
         self.bt_stream = io.BytesIO()
         self.cs = canvas.Canvas(self.bt_stream)
@@ -25,8 +25,16 @@ class BlankPDF(object):
 
 
     def write(self):
-        with open(self.output_file, 'wb') as f:
+        with open(self._output_file, 'wb') as f:
             self.writer.write(f)
+
+    @property
+    def output_file(self) -> str: return self._output_file
+
+    @output_file.setter
+    def set_output_file(self, file_name: str) -> None:
+        self._output_file = file_name
+
 
 if __name__ == '__main__':
     blank_pdf = BlankPDF()
